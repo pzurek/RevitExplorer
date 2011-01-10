@@ -1,0 +1,8 @@
+
+*.user*
+*.pidb
+*.pdb
+*.suo
+[Bb]in/
+obj/
+versions/
