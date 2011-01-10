@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command ElementExplorer</Text>
+    <Description>Some description for ElementExplorer</Description>
+    <Assembly>Z:\C\Projects\Revit\ElementExplorer\bin\debug\ElementExplorer.dll</Assembly>
+    <FullClassName>ElementExplorer.Commands</FullClassName>
+    <ClientId>73c40cbf-4e33-4de6-bb65-66ed731bce08</ClientId>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application ElementExplorer</Name>
+    <Assembly>Z:\C\Projects\Revit\ElementExplorer\bin\debug\ElementExplorer.dll</Assembly>
+    <ClientId>9f617d0d-084a-4d30-90bf-800015a4bde8</ClientId>
+    <FullClassName>ElementExplorer.Application</FullClassName>
+  </AddIn>
+</RevitAddIns>
