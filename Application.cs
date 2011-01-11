@@ -95,12 +95,11 @@ namespace RevitExplorer
             elementImageColumn.HeaderText = "Type Preview";
 
             gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            gridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            gridView.RowHeadersVisible = false;
 
             gridView.Columns.Add(elementNameColumn);
             gridView.Columns.Add(elementImageColumn);
-
-            gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            gridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
             if (gridView.Rows.Count > 0)
                 gridView.Rows.Clear();
