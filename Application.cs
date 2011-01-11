@@ -107,12 +107,9 @@ namespace RevitExplorer
             foreach (Element element in elements)
             {
                 ElementType elementType = activeDoc.get_Element(element.GetTypeId()) as ElementType;
-                //Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
-
-                object[] newRow = {
-                                      element.Name//,
-                                      //image
-                                  };
+                Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
+                object[] newRow = {element.Name, image};
+                gridView.Rows.Add(newRow);
             }
         }
 
