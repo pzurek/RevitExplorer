@@ -52,7 +52,7 @@
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.elementGridView);
             this.Name = "Dialog";
-            this.Text = "Dialog";
+            this.Text = "Revit Explorer";
             ((System.ComponentModel.ISupportInitialize)(this.elementGridView)).EndInit();
             this.ResumeLayout(false);
 
