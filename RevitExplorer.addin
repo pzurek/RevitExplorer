@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Revit Explorer</Name>
+    <Assembly>Z:\C\Projects\Revit\ElementExplorer\bin\debug\ElementExplorer.dll</Assembly>
+    <ClientId>9f617d0d-084a-4d30-90bf-800015a4bde8</ClientId>
+    <FullClassName>RevitExplorer.Application</FullClassName>
+  </AddIn>
+</RevitAddIns>

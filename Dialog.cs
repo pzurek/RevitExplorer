@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ElementExplorer
+namespace RevitExplorer
 {
     public partial class Dialog : Form
     {

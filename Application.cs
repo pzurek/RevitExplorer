@@ -15,13 +15,13 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 using Autodesk.Revit.UI.Selection;
 
-using ElementExplorer;
+using RevitExplorer;
 
 using View = Autodesk.Revit.DB.View;
 using Application = Autodesk.Revit.ApplicationServices.Application;
 #endregion
 
-namespace ElementExplorer
+namespace RevitExplorer
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]

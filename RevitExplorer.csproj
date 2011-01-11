@@ -10,7 +10,7 @@
     <ProjectGuid>{37BF66D0-08A1-41F6-BA27-D84C50990BD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElementExplorer</RootNamespace>
+    <RootNamespace>RevitExplorer</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ElementExplorer.addin" />
+    <None Include="RevitExplorer.addin" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Dialog.resx">
@@ -79,9 +79,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterClean">
-    <Delete Files="$(AppData)\Autodesk\REVIT\Addins\2011\ElementExplorer.addin" />
+    <Delete Files="$(AppData)\Autodesk\REVIT\Addins\2011\RevitExplorer.addin" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)ElementExplorer.addin" "$(AppData)\Autodesk\REVIT\Addins\2011\ElementExplorer.addin"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)RevitExplorer.addin" "$(AppData)\Autodesk\REVIT\Addins\2011\RevittExplorer.addin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

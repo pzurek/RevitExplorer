@@ -1,4 +1,4 @@
-﻿namespace ElementExplorer
+﻿namespace RevitExplorer
 {
     partial class Dialog
     {
