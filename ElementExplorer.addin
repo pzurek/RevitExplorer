@@ -8,7 +8,7 @@
     <ClientId>73c40cbf-4e33-4de6-bb65-66ed731bce08</ClientId>
   </AddIn>
   <AddIn Type="Application">
-    <Name>Application ElementExplorer</Name>
+    <Name>Element Explorer</Name>
     <Assembly>Z:\C\Projects\Revit\ElementExplorer\bin\debug\ElementExplorer.dll</Assembly>
     <ClientId>9f617d0d-084a-4d30-90bf-800015a4bde8</ClientId>
     <FullClassName>ElementExplorer.Application</FullClassName>

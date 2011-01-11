@@ -2,6 +2,7 @@
 
 //.NET common used namespaces
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -9,9 +10,15 @@ using System.Collections.Generic;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Events;
 using Autodesk.Revit.UI.Selection;
 
+using ElementExplorer;
+
+using View = Autodesk.Revit.DB.View;
+using Application = Autodesk.Revit.ApplicationServices.Application;
 #endregion
 
 namespace ElementExplorer
@@ -20,33 +27,93 @@ namespace ElementExplorer
     [Regeneration(RegenerationOption.Manual)]
     class Application : IExternalApplication
     {
-        /// <summary>
-        /// Implement this method to implement the external application which should be called when 
-        /// Revit starts before a file or default template is actually loaded.
-        /// </summary>
-        /// <param name="application">An object that is passed to the external application which contains the controlled application.</param>
-        /// <returns>Return the status of the external application. A result of Succeeded means that the external application successfully started. Cancelled can be used to signify that the user cancelled the external operation at some point. If false is returned then Revit should inform the user that the external application failed to load and the release the internal reference.</returns>
+        UIControlledApplication uiCtrlApp;
+        ControlledApplication app;
+        Document activeDoc;
+        View activeView;
+        FilteredElementCollector collector;
+        IList<Element> structuralElements;
+        Dialog dialog;
+
         public Result OnStartup(UIControlledApplication application)
         {
-            //TODO: Add your code here
+            try
+            {
+                uiCtrlApp = application;
+                app = uiCtrlApp.ControlledApplication;
+                dialog = new Dialog();
+                DataGridView elementGridView = dialog.elementGridView;
 
+                #region Filter definitions
+                ElementStructuralTypeFilter structuralTypeFilter = new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true);
+                #endregion
 
-            //Must return some code
+                app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) => {
+                    UpdateDocument(e.Document);
+                    setupElementGridView(elementGridView, structuralElements);
+                    dialog.ShowDialog();
+                });
+
+                uiCtrlApp.ViewActivated += ((object o, ViewActivatedEventArgs e) =>
+                {
+                    UpdateActiveView(e);
+                });
+
+            }
+            catch (Exception)
+            {
+                return Result.Failed;
+            }
+
             return Result.Succeeded;
         }
 
-        /// <summary>
-        /// Implement this method to implement the external application which should be called when 
-        /// Revit is about to exit. Any documents must have been closed before this method is called.
-        /// </summary>
-        /// <param name="application">An object that is passed to the external application which contains the controlled application.</param>
-        /// <returns>Return the status of the external application. A result of Succeeded means that the external application successfully shutdown. Cancelled can be used to signify that the user cancelled the external operation at some point. If false is returned then the Revit user should be warned of the failure of the external application to shut down correctly.</returns>
+        private void UpdateActiveView(ViewActivatedEventArgs e)
+        {
+            if (e.Status == EventStatus.Succeeded)
+                activeView = e.CurrentActiveView;
+        }
+
+        private void UpdateDocument(Document document)
+        {
+            activeDoc = document;
+            activeView = document.ActiveView;
+            collector = new FilteredElementCollector(activeDoc);
+            structuralElements = collector.WherePasses(new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true)).ToElements();
+        }
+
+        private void setupElementGridView(DataGridView gridView, IList<Element> elements)
+        {
+            var textCell = new DataGridViewTextBoxCell();
+            var imageCell = new DataGridViewImageCell();
+            var imageCellStyle = new DataGridViewCellStyle();
+            imageCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            var elementNameColumn = new DataGridViewColumn(textCell);
+            var elementImageColumn = new DataGridViewColumn(imageCell);
+
+            gridView.Columns.Add(elementNameColumn);
+            gridView.Columns.Add(elementImageColumn);
+
+            gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            gridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            if (gridView.Rows.Count > 0)
+                gridView.Rows.Clear();
+
+            foreach (Element element in elements)
+            {
+                ElementType elementType = activeDoc.get_Element(element.GetTypeId()) as ElementType;
+                Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
+
+                object[] newRow = {
+                                      element.Name,
+                                      image,
+                                  };
+            }
+        }
+
         public Result OnShutdown(UIControlledApplication application)
         {
-            //TODO: Add your code here
-
-
-            //Must return some code
             return Result.Succeeded;
         }
     }
