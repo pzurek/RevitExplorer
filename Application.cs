@@ -90,7 +90,11 @@ namespace RevitExplorer
             var imageCellStyle = new DataGridViewCellStyle();
             imageCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             var elementNameColumn = new DataGridViewColumn(textCell);
+            elementNameColumn.HeaderText = "Element Name";
             var elementImageColumn = new DataGridViewColumn(imageCell);
+            elementImageColumn.HeaderText = "Type Preview";
+
+            gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             gridView.Columns.Add(elementNameColumn);
             gridView.Columns.Add(elementImageColumn);
