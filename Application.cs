@@ -48,7 +48,8 @@ namespace RevitExplorer
                 ElementStructuralTypeFilter structuralTypeFilter = new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true);
                 #endregion
 
-                app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) => {
+                app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) =>
+                {
                     UpdateDocument(e.Document);
                     setupElementGridView(elementGridView, structuralElements);
                     dialog.ShowDialog();
