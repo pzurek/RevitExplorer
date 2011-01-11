@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitExplorer", "RevitExplorer.csproj", "{37BF66D0-08A1-41F6-BA27-D84C50990BD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitExplorer", "RevitExplorer.csproj", "{35C500F4-7FBD-48AB-8CFB-6430E4CA18F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{37BF66D0-08A1-41F6-BA27-D84C50990BD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37BF66D0-08A1-41F6-BA27-D84C50990BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37BF66D0-08A1-41F6-BA27-D84C50990BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37BF66D0-08A1-41F6-BA27-D84C50990BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C500F4-7FBD-48AB-8CFB-6430E4CA18F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C500F4-7FBD-48AB-8CFB-6430E4CA18F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C500F4-7FBD-48AB-8CFB-6430E4CA18F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C500F4-7FBD-48AB-8CFB-6430E4CA18F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
