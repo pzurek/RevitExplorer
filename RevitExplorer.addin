@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
   <AddIn Type="Application">
     <Name>Revit Explorer</Name>
-    <Assembly>Z:\C\Projects\Revit\RevitExplorer\bin\debug\RevitExplorer.dll</Assembly>
-    <AddInId>9f617d0d-084a-4d30-90bf-800015a4bde8</AddInId>
+    <Assembly>C:\Projects\Revit\RevitExplorer\bin\Debug\RevitExplorer.dll</Assembly>
+    <AddInId>FF9EAC8C-D720-4693-A465-84C3017C7A7A</AddInId>
     <FullClassName>RevitExplorer.Application</FullClassName>
-    <SuppressedWarning>GUIDConflict</SuppressedWarning>
   </AddIn>
 </RevitAddIns>
