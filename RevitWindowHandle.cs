@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace RevitExplorer
 {
-    class RevitWindowHandle
+    class RevitWindowHandle : IWin32Window
     {
         IntPtr revitWindowHandle;
 
