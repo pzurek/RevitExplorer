@@ -34,15 +34,23 @@ namespace RevitExplorer
         FilteredElementCollector collector;
         IList<Element> structuralElements;
         Dialog dialog;
+        bool documentLoaded;
 
         public Result OnStartup(UIControlledApplication application)
         {
+            documentLoaded = false;
+
             try
             {
                 uiCtrlApp = application;
                 app = uiCtrlApp.ControlledApplication;
                 dialog = new Dialog();
                 DataGridView elementGridView = dialog.elementGridView;
+                setupElementGridView(elementGridView);
+                Button applyButton = dialog.applyButton;
+                Button revertButton = dialog.revertButton;
+                Button closeButton = dialog.closeButton;
+                Label activeViewLabel = dialog.activeViewLabel;
 
                 #region Filter definitions
                 ElementStructuralTypeFilter structuralTypeFilter = new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true);
@@ -51,14 +59,29 @@ namespace RevitExplorer
                 app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) =>
                 {
                     UpdateDocument(e.Document);
-                    setupElementGridView(elementGridView, structuralElements);
+                    documentLoaded = true;
+                    activeViewLabel.Text = e.Document.ActiveView.ViewName;
+                    populateElementGridView(elementGridView, structuralElements, activeView);
                     dialog.ShowDialog();
+                });
+
+                app.DocumentClosed += ((object o, DocumentClosedEventArgs e) =>
+                {
+                    documentLoaded = false;
                 });
 
                 uiCtrlApp.ViewActivated += ((object o, ViewActivatedEventArgs e) =>
                 {
-                    UpdateActiveView(e);
+                    if (documentLoaded)
+                    {
+                        UpdateActiveView(e);
+                        activeViewLabel.Text = e.CurrentActiveView.ViewName;
+                        populateElementGridView(elementGridView, structuralElements, activeView);
+                        dialog.ShowDialog();
+                    }
                 });
+
+                closeButton.Click += ((object o, EventArgs e) => dialog.Close());
 
             }
             catch (Exception)
@@ -83,24 +106,8 @@ namespace RevitExplorer
             structuralElements = collector.WherePasses(new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true)).ToElements();
         }
 
-        private void setupElementGridView(DataGridView gridView, IList<Element> elements)
+        private void populateElementGridView(DataGridView gridView, IList<Element> elements, View view)
         {
-            var textCell = new DataGridViewTextBoxCell();
-            var imageCell = new DataGridViewImageCell();
-            var imageCellStyle = new DataGridViewCellStyle();
-            imageCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            var elementNameColumn = new DataGridViewColumn(textCell);
-            elementNameColumn.HeaderText = "Element Name";
-            var elementImageColumn = new DataGridViewColumn(imageCell);
-            elementImageColumn.HeaderText = "Type Preview";
-
-            gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            gridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            gridView.RowHeadersVisible = false;
-
-            gridView.Columns.Add(elementNameColumn);
-            gridView.Columns.Add(elementImageColumn);
-
             if (gridView.Rows.Count > 0)
                 gridView.Rows.Clear();
 
@@ -108,9 +115,35 @@ namespace RevitExplorer
             {
                 ElementType elementType = activeDoc.get_Element(element.GetTypeId()) as ElementType;
                 Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
-                object[] newRow = {element.Name, image};
+                object[] newRow = {element.Id, element.Name, !element.IsHidden(activeView)};
                 gridView.Rows.Add(newRow);
             }
+        }
+
+        private static void setupElementGridView(DataGridView gridView)
+        {
+            var textCell = new DataGridViewTextBoxCell();
+            var checkCell = new DataGridViewCheckBoxCell();
+            var checkCellStyle = new DataGridViewCellStyle();
+            checkCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            var elementIdColumn = new DataGridViewColumn(textCell);
+
+            var elementNameColumn = new DataGridViewColumn(textCell);
+            elementNameColumn.HeaderText = "Element Name";
+
+            var elementVisibilityColumn = new DataGridViewColumn(checkCell);
+            elementVisibilityColumn.HeaderText = "Visible";
+
+            gridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            gridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            gridView.RowHeadersVisible = false;
+
+            gridView.Columns.Add(elementIdColumn);
+            gridView.Columns.Add(elementNameColumn);
+            gridView.Columns.Add(elementVisibilityColumn);
+
+            gridView.Columns[0].Visible = false;
         }
 
         public Result OnShutdown(UIControlledApplication application)
