@@ -52,6 +52,9 @@ namespace RevitExplorer
                 Button closeButton = dialog.closeButton;
                 Label activeViewLabel = dialog.activeViewLabel;
 
+                revertButton.Enabled = false;
+                applyButton.Enabled = false;
+
                 #region Filter definitions
                 ElementStructuralTypeFilter structuralTypeFilter = new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true);
                 #endregion
@@ -82,11 +85,25 @@ namespace RevitExplorer
                 });
 
                 closeButton.Click += ((object o, EventArgs e) => dialog.Close());
+
                 applyButton.Click += ((object o, EventArgs e) => {
                     applyChanges(elementGridView);
+                    revertButton.Enabled = false;
+                    applyButton.Enabled = false;
                 });
 
-                revertButton.Enabled = false;
+                revertButton.Click += ((object o, EventArgs e) =>
+                {
+                    populateElementGridView(elementGridView, structuralElements, activeView);
+                    revertButton.Enabled = false;
+                    applyButton.Enabled = false;
+                });
+
+                elementGridView.CellValueChanged += ((object o, DataGridViewCellEventArgs e) =>
+                {
+                    applyButton.Enabled = true;
+                    revertButton.Enabled = true;
+                });
 
             }
             catch (Exception)
@@ -170,7 +187,6 @@ namespace RevitExplorer
 
                 transaction.Commit();
             }
-
         }
 
         public Result OnShutdown(UIControlledApplication application)
