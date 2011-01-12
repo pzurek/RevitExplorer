@@ -82,6 +82,11 @@ namespace RevitExplorer
                 });
 
                 closeButton.Click += ((object o, EventArgs e) => dialog.Close());
+                applyButton.Click += ((object o, EventArgs e) => {
+                    applyChanges(elementGridView);
+                });
+
+                revertButton.Enabled = false;
 
             }
             catch (Exception)
@@ -144,6 +149,28 @@ namespace RevitExplorer
             gridView.Columns.Add(elementVisibilityColumn);
 
             gridView.Columns[0].Visible = false;
+        }
+
+        void applyChanges(DataGridView gridView)
+        {
+            foreach (DataGridViewRow row in gridView.Rows)
+            {
+                var element = activeDoc.get_Element(row.Cells[0].Value as ElementId);
+                ElementSet elementSet = new ElementSet();
+                elementSet.Insert(element);
+
+                Transaction transaction = new Transaction(activeDoc);
+                transaction.Start("Changing visibility");
+
+                if ((bool)row.Cells[2].Value == true)
+                    activeView.Unhide(elementSet);
+                else
+                    if (element.CanBeHidden(activeView))
+                        activeView.Hide(elementSet);
+
+                transaction.Commit();
+            }
+
         }
 
         public Result OnShutdown(UIControlledApplication application)

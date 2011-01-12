@@ -69,7 +69,6 @@
             this.elementGridView.Location = new System.Drawing.Point(6, 31);
             this.elementGridView.Margin = new System.Windows.Forms.Padding(6);
             this.elementGridView.Name = "elementGridView";
-            this.elementGridView.ReadOnly = true;
             this.elementGridView.Size = new System.Drawing.Size(347, 335);
             this.elementGridView.TabIndex = 0;
             // 
