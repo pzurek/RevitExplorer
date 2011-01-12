@@ -83,6 +83,7 @@
       <DependentUpon>Dialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RevitWindowHandle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RevitExplorer.addin">
