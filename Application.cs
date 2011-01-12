@@ -160,7 +160,7 @@ namespace RevitExplorer
                 elementSet.Insert(element);
 
                 Transaction transaction = new Transaction(activeDoc);
-                transaction.Start("Changing visibility");
+                transaction.Start(string.Format("Applying visibility of element {0}", element.Id.ToString()));
 
                 if ((bool)row.Cells[2].Value == true)
                     activeView.Unhide(elementSet);
