@@ -52,16 +52,6 @@ namespace RevitExplorer
 
                 uiCtrlApp = application;
                 app = uiCtrlApp.ControlledApplication;
-                dialog = new Dialog();
-                DataGridView elementGridView = dialog.elementGridView;
-                setupElementGridView(elementGridView);
-                Button applyButton = dialog.applyButton;
-                Button revertButton = dialog.revertButton;
-                Button closeButton = dialog.closeButton;
-                Label activeViewLabel = dialog.activeViewLabel;
-
-                revertButton.Enabled = false;
-                applyButton.Enabled = false;
 
                 app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) =>
                 {
@@ -83,28 +73,6 @@ namespace RevitExplorer
                         ShowDialog();
                     }
                 });
-
-                closeButton.Click += ((object o, EventArgs e) => dialog.Close());
-
-                applyButton.Click += ((object o, EventArgs e) => {
-                    applyChanges(elementGridView);
-                    revertButton.Enabled = false;
-                    applyButton.Enabled = false;
-                });
-
-                revertButton.Click += ((object o, EventArgs e) =>
-                {
-                    populateElementGridView(elementGridView, structuralElements, activeView);
-                    revertButton.Enabled = false;
-                    applyButton.Enabled = false;
-                });
-
-                elementGridView.CellValueChanged += ((object o, DataGridViewCellEventArgs e) =>
-                {
-                    applyButton.Enabled = true;
-                    revertButton.Enabled = true;
-                });
-
             }
             catch (Exception)
             {
@@ -114,6 +82,40 @@ namespace RevitExplorer
             return Result.Succeeded;
         }
 
+        private void SetupDialog()
+        {
+            dialog = new Dialog();
+            dialog.StartPosition = FormStartPosition.CenterScreen;
+            dialog.revertButton.Enabled = false;
+            dialog.applyButton.Enabled = false;
+
+            dialog.closeButton.Click += ((object o, EventArgs e) => dialog.Close());
+
+            dialog.applyButton.Click += ((object o, EventArgs e) =>
+            {
+                applyChanges(dialog.elementGridView);
+                dialog.revertButton.Enabled = false;
+                dialog.applyButton.Enabled = false;
+            });
+
+            dialog.revertButton.Click += ((object o, EventArgs e) =>
+            {
+                setupElementGridView(dialog.elementGridView, structuralElements);
+                dialog.revertButton.Enabled = false;
+                dialog.applyButton.Enabled = false;
+            });
+
+            //Enabling Apply and Revert buttons when cell value changes
+            //It should actually track the value and go back to disabled if there is no change
+            dialog.elementGridView.CellContentClick += ((object o, DataGridViewCellEventArgs e) =>
+            {
+                if (e.ColumnIndex != 2)
+                    return;
+
+                dialog.applyButton.Enabled = true;
+                dialog.revertButton.Enabled = true;
+            });
+        }
 
         private void ShowDialog()
         {
