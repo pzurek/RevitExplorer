@@ -136,22 +136,11 @@ namespace RevitExplorer
             structuralElements = collector.WherePasses(new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true)).ToElements();
         }
 
-        private void populateElementGridView(DataGridView gridView, IList<Element> elements, View view)
+        private void setupElementGridView(DataGridView gridView, IList<Element> elements)
         {
-            if (gridView.Rows.Count > 0)
-                gridView.Rows.Clear();
+            if (gridView.ColumnCount > 0)
+                gridView.Columns.Clear();
 
-            foreach (Element element in elements)
-            {
-                ElementType elementType = activeDoc.get_Element(element.GetTypeId()) as ElementType;
-                Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
-                object[] newRow = {element.Id, element.Name, !element.IsHidden(activeView)};
-                gridView.Rows.Add(newRow);
-            }
-        }
-
-        private static void setupElementGridView(DataGridView gridView)
-        {
             var textCell = new DataGridViewTextBoxCell();
             var checkCell = new DataGridViewCheckBoxCell();
             var checkCellStyle = new DataGridViewCellStyle();
@@ -174,6 +163,17 @@ namespace RevitExplorer
             gridView.Columns.Add(elementVisibilityColumn);
 
             gridView.Columns[0].Visible = false;
+
+            if (gridView.Rows.Count > 0)
+                gridView.Rows.Clear();
+
+            foreach (Element element in elements)
+            {
+                ElementType elementType = activeDoc.get_Element(element.GetTypeId()) as ElementType;
+                Bitmap image = elementType.GetPreviewImage(new Size(100, 100));
+                object[] newRow = { element.Id, element.Name, !element.IsHidden(activeView) };
+                gridView.Rows.Add(newRow);
+            }
         }
 
         void applyChanges(DataGridView gridView)
