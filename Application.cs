@@ -122,6 +122,23 @@ namespace RevitExplorer
             return Result.Succeeded;
         }
 
+
+        //Disabling all the children of the dialog but not the dialog itself
+        //I want to disable all elements of the dialog to make it unusable
+        //but keep the dialog itself movable
+        private void DisableDialog()
+        {
+            foreach (System.Windows.Forms.Control control in dialog.Controls)
+                control.Enabled = false;
+        }
+        
+        //Opposite to the one above
+        private void EnableDialog()
+        {
+            foreach (System.Windows.Forms.Control control in dialog.Controls)
+                control.Enabled = true;
+        }
+
         private void UpdateActiveView(ViewActivatedEventArgs e)
         {
             if (e.Status == EventStatus.Succeeded)
