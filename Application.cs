@@ -2,6 +2,7 @@
 
 //.NET common used namespaces
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
