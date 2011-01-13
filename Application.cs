@@ -67,9 +67,7 @@ namespace RevitExplorer
                 {
                     UpdateDocument(e.Document);
                     documentLoaded = true;
-                    activeViewLabel.Text = e.Document.ActiveView.ViewName;
-                    populateElementGridView(elementGridView, structuralElements, activeView);
-                    dialog.ShowDialog();
+                    ShowDialog();
                 });
 
                 app.DocumentClosed += ((object o, DocumentClosedEventArgs e) =>
@@ -82,9 +80,7 @@ namespace RevitExplorer
                     if (documentLoaded)
                     {
                         UpdateActiveView(e);
-                        activeViewLabel.Text = e.CurrentActiveView.ViewName;
-                        populateElementGridView(elementGridView, structuralElements, activeView);
-                        dialog.ShowDialog();
+                        ShowDialog();
                     }
                 });
 
@@ -118,6 +114,29 @@ namespace RevitExplorer
             return Result.Succeeded;
         }
 
+
+        private void ShowDialog()
+        {
+            if (dialog == null || dialog.IsDisposed)
+                SetupDialog();
+
+            dialog.activeViewLabel.Text = activeView.ViewName;
+            setupElementGridView(dialog.elementGridView, structuralElements);
+
+            //I only want to enable the dialog if the active view is a plan
+            //a section or a 3D view
+            if (activeView is ViewPlan ||
+                activeView is ViewSection ||
+                activeView is View3D)
+                EnableDialog();
+            else
+                DisableDialog();
+
+            if (dialog.Visible)
+                return;
+
+            dialog.Show(revitWindowHandle);
+        }
 
         //Disabling all the children of the dialog but not the dialog itself
         //I want to disable all elements of the dialog to make it unusable
