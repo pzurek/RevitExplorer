@@ -184,6 +184,7 @@ namespace RevitExplorer
 
             var elementNameColumn = new DataGridViewColumn(textCell);
             elementNameColumn.HeaderText = "Element Name";
+            elementNameColumn.ReadOnly = true;
 
             var elementVisibilityColumn = new DataGridViewColumn(checkCell);
             elementVisibilityColumn.HeaderText = "Visible";
