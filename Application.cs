@@ -167,7 +167,10 @@ namespace RevitExplorer
         {
             activeDoc = document;
             activeView = document.ActiveView;
-            allElements = new FilteredElementCollector(activeDoc).WhereElementIsNotElementType().ToElements();
+            allElements = new FilteredElementCollector(activeDoc)
+                .WhereElementIsNotElementType()
+                .WhereElementIsViewIndependent();
+
             structuralElements = from elements in allElements
                                  where elements.Category != null && elements.Category.HasMaterialQuantities
                                  select elements;
