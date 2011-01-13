@@ -170,7 +170,7 @@ namespace RevitExplorer
             structuralElements = collector.WherePasses(new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true)).ToElements();
         }
 
-        private void setupElementGridView(DataGridView gridView, IList<Element> elements)
+        private void setupElementGridView(DataGridView gridView, IEnumerable<Element> elements)
         {
             if (gridView.ColumnCount > 0)
                 gridView.Columns.Clear();
