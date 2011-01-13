@@ -69,6 +69,7 @@
             this.elementGridView.Location = new System.Drawing.Point(6, 31);
             this.elementGridView.Margin = new System.Windows.Forms.Padding(6);
             this.elementGridView.Name = "elementGridView";
+            this.elementGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.elementGridView.Size = new System.Drawing.Size(347, 335);
             this.elementGridView.TabIndex = 0;
             // 
@@ -103,6 +104,7 @@
             // 
             // revertButton
             // 
+            this.revertButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.revertButton.Location = new System.Drawing.Point(191, 6);
             this.revertButton.Margin = new System.Windows.Forms.Padding(6);
             this.revertButton.Name = "revertButton";
@@ -113,6 +115,7 @@
             // 
             // closeButton
             // 
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Location = new System.Drawing.Point(278, 6);
             this.closeButton.Margin = new System.Windows.Forms.Padding(6);
             this.closeButton.Name = "closeButton";
@@ -160,12 +163,15 @@
             // 
             // Dialog
             // 
+            this.AcceptButton = this.applyButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.revertButton;
             this.ClientSize = new System.Drawing.Size(371, 419);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Dialog";
             this.Padding = new System.Windows.Forms.Padding(6);
+            this.ShowInTaskbar = false;
             this.Text = "Revit Explorer";
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.elementGridView)).EndInit();
