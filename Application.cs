@@ -2,6 +2,7 @@
 
 //.NET common used namespaces
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -166,8 +167,10 @@ namespace RevitExplorer
         {
             activeDoc = document;
             activeView = document.ActiveView;
-            collector = new FilteredElementCollector(activeDoc);
-            structuralElements = collector.WherePasses(new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true)).ToElements();
+            allElements = new FilteredElementCollector(activeDoc).WhereElementIsNotElementType().ToElements();
+            structuralElements = from elements in allElements
+                                 where elements.Category != null && elements.Category.HasMaterialQuantities
+                                 select elements;
         }
 
         private void setupElementGridView(DataGridView gridView, IEnumerable<Element> elements)
