@@ -63,10 +63,6 @@ namespace RevitExplorer
                 revertButton.Enabled = false;
                 applyButton.Enabled = false;
 
-                #region Filter definitions
-                ElementStructuralTypeFilter structuralTypeFilter = new ElementStructuralTypeFilter(Autodesk.Revit.DB.Structure.StructuralType.NonStructural, true);
-                #endregion
-
                 app.DocumentOpened += ((object o, DocumentOpenedEventArgs e) =>
                 {
                     UpdateDocument(e.Document);
