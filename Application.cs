@@ -32,8 +32,8 @@ namespace RevitExplorer
         ControlledApplication app;
         Document activeDoc;
         View activeView;
-        FilteredElementCollector collector;
-        IList<Element> structuralElements;
+        IEnumerable<Element> allElements;
+        IEnumerable<Element> structuralElements;
         Dialog dialog;
         bool documentLoaded;
         Process process;
