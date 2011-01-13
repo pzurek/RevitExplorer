@@ -36,6 +36,9 @@ namespace RevitExplorer
         IList<Element> structuralElements;
         Dialog dialog;
         bool documentLoaded;
+        Process process;
+        IntPtr handle;
+        RevitWindowHandle revitWindowHandle;
 
         public Result OnStartup(UIControlledApplication application)
         {
@@ -43,6 +46,10 @@ namespace RevitExplorer
 
             try
             {
+                process = Process.GetCurrentProcess();
+                handle = process.MainWindowHandle;
+                revitWindowHandle = new RevitWindowHandle(handle);
+
                 uiCtrlApp = application;
                 app = uiCtrlApp.ControlledApplication;
                 dialog = new Dialog();
