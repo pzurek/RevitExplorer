@@ -169,6 +169,7 @@
             this.CancelButton = this.revertButton;
             this.ClientSize = new System.Drawing.Size(371, 419);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Dialog";
             this.Padding = new System.Windows.Forms.Padding(6);
             this.ShowInTaskbar = false;
